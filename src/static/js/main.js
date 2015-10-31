@@ -1,5 +1,10 @@
 function App() {}
 
+var data = [
+    { author: 'Captain Lou', text: 'Cindy Lauper is very nice in person!'},
+    { author: 'Dr. Steve', text: 'Don\'t be a dangus you dingus!' }
+];
+
 App.prototype = {
     initialize: function () {
         var CommentBox = React.createClass({
@@ -7,7 +12,7 @@ App.prototype = {
                 return (
                     <div className="commentBox">
                         <h1>Hello Danny</h1>
-                        <CommentList />
+                        <CommentList data={ data } />
                         <CommentForm />
                     </div>
                 );
@@ -15,10 +20,16 @@ App.prototype = {
         });
         var CommentList = React.createClass({
             render: function () {
+                var commentNodes = this.props.data.map(function (comment, i) {
+                    return (
+                        <Comment author={ comment.author } key={ i }>
+                            { comment.text }
+                        </Comment>
+                    );
+                });
                 return (
                     <div className="commentList">
-                        <Comment author="bobby budnick">This is a comment</Comment>
-                        <Comment author="donkey lips">This is *another* comment</Comment>
+                        { commentNodes }
                     </div>
                 );
             }
