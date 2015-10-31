@@ -43,6 +43,7 @@
         "module": "true",
         "$": "true",
         "React": "true",
-        "ReactDom": "true"
+        "ReactDom": "true",
+        "marked": "true"
     }
 }
