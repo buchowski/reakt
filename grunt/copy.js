@@ -12,11 +12,20 @@ module.exports = function (grunt) {
             options: {
 
             }
+        },
+        data: {
+            files: [{
+                expand: true,
+                cwd: 'src/static/js',
+                src: ['dummy-data.json'],
+                dest: 'web/static/js'
+            }]
         }
 
     });
 
     grunt.registerTask('copy:dev', [
-        'copy:html'
+        'copy:html',
+        'copy:data'
     ]);
 };

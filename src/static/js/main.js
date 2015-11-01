@@ -8,11 +8,29 @@ var data = [
 App.prototype = {
     initialize: function () {
         var CommentBox = React.createClass({
+            getInitialState: function () {
+                return { data: [{ author: 'Stinky Stephan', text: 'who broke the microwave oven?!?' }] };
+            },
+            componentDidMount: function () {
+                var commentBox = this;
+
+                $.ajax({
+                    url: this.props.url,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        commentBox.setState({ data: data });
+                    },
+                    error: function (data) {
+                        throw new Error(data);
+                    }
+                });
+            },
             render: function () {
                 return (
                     <div className="commentBox">
                         <h1>Hello Danny</h1>
-                        <CommentList data={ data } />
+                        <CommentList data={ this.state.data } />
                         <CommentForm />
                     </div>
                 );
@@ -61,7 +79,7 @@ App.prototype = {
             }
         });
         ReactDOM.render(
-            <CommentBox />,
+            <CommentBox url="./js/dummy-data.json" />,
             document.getElementById('content')
         );
     }
