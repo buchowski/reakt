@@ -11,7 +11,7 @@ App.prototype = {
             getInitialState: function () {
                 return { data: [{ author: 'Stinky Stephan', text: 'who broke the microwave oven?!?' }] };
             },
-            componentDidMount: function () {
+            loadComments: function () {
                 var commentBox = this;
 
                 $.ajax({
@@ -25,6 +25,10 @@ App.prototype = {
                         throw new Error(data);
                     }
                 });
+            },
+            componentDidMount: function () {
+                this.loadComments();
+                window.setInterval(this.loadComments, this.props.interval);
             },
             render: function () {
                 return (
@@ -79,7 +83,7 @@ App.prototype = {
             }
         });
         ReactDOM.render(
-            <CommentBox url="./js/dummy-data.json" />,
+            <CommentBox url="./js/dummy-data.json" interval={2000} />,
             document.getElementById('content')
         );
     }
