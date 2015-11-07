@@ -28,14 +28,20 @@ App.prototype = {
             },
             componentDidMount: function () {
                 this.loadComments();
-                window.setInterval(this.loadComments, this.props.interval);
+                // window.setInterval(this.loadComments, this.props.interval);
+            },
+            handleCommentSubmit: function (comment) {
+                var comments = this.state.data;
+
+                comments.push(comment);
+                this.setState({ data: comments });
             },
             render: function () {
                 return (
                     <div className="commentBox">
                         <h1>Hello Danny</h1>
                         <CommentList data={ this.state.data } />
-                        <CommentForm />
+                        <CommentForm onCommentSubmit={ this.handleCommentSubmit } />
                     </div>
                 );
             }
@@ -74,11 +80,28 @@ App.prototype = {
             }
         });
         var CommentForm = React.createClass({
+            handleSubmit: function (e) {
+                e.preventDefault();
+                var author = this.refs.author.value.trim();
+                var text = this.refs.text.value.trim();
+
+                if (!author || !text) {
+                    return;
+                } else {
+                    this.props.onCommentSubmit({ author: author, text: text });
+                    this.refs.author.value = '';
+                    this.refs.text.value = '';
+
+                    return;
+                }
+            },
             render: function () {
                 return (
-                    <div className="commentForm">
-                        Hello Bobby
-                    </div>
+                    <form className="commentForm" onSubmit={ this.handleSubmit }>
+                        <input type="text" placeholder="name" ref="author" />
+                        <input type="text" placeholder="text" ref="text" />
+                        <input type="submit" value="Post" />
+                    </form>
                 );
             }
         });
