@@ -32,9 +32,9 @@ App.prototype = {
             },
             handleCommentSubmit: function (comment) {
                 var comments = this.state.data;
+                var newComments = comments.concat(comment);
 
-                comments.push(comment);
-                this.setState({ data: comments });
+                this.setState({ data: newComments });
             },
             render: function () {
                 return (
